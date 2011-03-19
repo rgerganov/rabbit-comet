@@ -8,8 +8,24 @@
     <servlet-name>Hello</servlet-name>
     <servlet-class>com.xakcop.HelloServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>Chat</servlet-name>
+    <servlet-class>com.xakcop.ChatServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ContinuationTest</servlet-name>
+    <servlet-class>com.xakcop.ContTestServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>Hello</servlet-name>
     <url-pattern>/hello/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Chat</servlet-name>
+    <url-pattern>/chat/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ContinuationTest</servlet-name>
+    <url-pattern>/test/*</url-pattern>
   </servlet-mapping>
 </web-app>
