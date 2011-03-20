@@ -4,28 +4,35 @@
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" 
    version="2.5">
-  <servlet>
-    <servlet-name>Hello</servlet-name>
-    <servlet-class>com.xakcop.HelloServlet</servlet-class>
-  </servlet>
+   
+  <context-param>
+    <param-name>amqpHost</param-name>
+    <param-value>localhost</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>amqpPort</param-name>
+    <param-value>5672</param-value>
+  </context-param>
+  
+  <listener>
+    <listener-class>com.xakcop.AmqpConnector</listener-class>
+  </listener>  
+  
   <servlet>
     <servlet-name>Chat</servlet-name>
     <servlet-class>com.xakcop.ChatServlet</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>ContinuationTest</servlet-name>
-    <servlet-class>com.xakcop.ContTestServlet</servlet-class>
+    <servlet-name>Amqp</servlet-name>
+    <servlet-class>com.xakcop.AmqpPollServlet</servlet-class>
   </servlet>
-  <servlet-mapping>
-    <servlet-name>Hello</servlet-name>
-    <url-pattern>/hello/*</url-pattern>
-  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>Chat</servlet-name>
     <url-pattern>/chat/*</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>ContinuationTest</servlet-name>
-    <url-pattern>/test/*</url-pattern>
+    <servlet-name>Amqp</servlet-name>
+    <url-pattern>/amqp/*</url-pattern>
   </servlet-mapping>
 </web-app>
