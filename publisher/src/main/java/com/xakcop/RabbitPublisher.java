@@ -1,7 +1,7 @@
 package com.xakcop;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.Date;
 
 import com.rabbitmq.client.AMQP.BasicProperties;
@@ -29,13 +29,18 @@ public class RabbitPublisher {
         connection = factory.newConnection();
     }
 
-    void publish() throws IOException {
+    void publish() throws Exception {
+        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
         Channel channel = connection.createChannel();
         try {
-            BasicProperties props = MessageProperties.PERSISTENT_TEXT_PLAIN;
-            props.setContentEncoding(ENCODING);
-            String message = "Current time: " + SimpleDateFormat.getInstance().format(new Date());
-            channel.basicPublish(EXCHANGE, "", props, message.getBytes(ENCODING));
+            for (int i = 0 ; i < 10 ; i++) {
+                BasicProperties props = MessageProperties.PERSISTENT_TEXT_PLAIN;
+                props.setContentEncoding(ENCODING);
+                String message = "Current time: " + dateFormat.format(new Date());
+                channel.basicPublish(EXCHANGE, "", props, message.getBytes(ENCODING));
+                System.out.println("Message published.");
+                Thread.sleep(100);
+            }
         } finally {
             channel.close();
         }
@@ -45,11 +50,10 @@ public class RabbitPublisher {
         connection.close();
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         RabbitPublisher publisher = new RabbitPublisher();
         publisher.connect();
         publisher.publish();
-        System.out.println("Message published.");
         publisher.disconnect();
     }
 

@@ -3,13 +3,15 @@ package com.xakcop;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-
-import org.eclipse.jetty.continuation.Continuation;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.rabbitmq.client.AMQP.BasicProperties;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
+
+import org.eclipse.jetty.continuation.Continuation;
 
 public class NotifyingConsumer extends DefaultConsumer {
 
@@ -27,8 +29,15 @@ public class NotifyingConsumer extends DefaultConsumer {
     public void handleDelivery(String consumerTag, Envelope envelope, BasicProperties properties, byte[] body)
             throws IOException {
         synchronized (this) {
-            messages.add(new String(body, 0, body.length, "UTF-8"));
-            if (continuation != null) {
+            String message = new String(body, 0, body.length, "UTF-8");
+            Pattern pattern = Pattern.compile("type=\"(.+?)\"");
+            Matcher matcher = pattern.matcher(message);
+            if (matcher.find()) {
+                messages.add(matcher.group(1));
+            } else {
+                messages.add(message);
+            }
+            if (continuation != null && continuation.isSuspended()) {
                 continuation.resume();
             }
         }

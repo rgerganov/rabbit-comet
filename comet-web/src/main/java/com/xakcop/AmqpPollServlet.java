@@ -11,16 +11,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.jetty.continuation.Continuation;
-import org.eclipse.jetty.continuation.ContinuationSupport;
-
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
+
+import org.eclipse.jetty.continuation.Continuation;
+import org.eclipse.jetty.continuation.ContinuationSupport;
 
 public class AmqpPollServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    private static final String ENCODING = "UTF-8";
 
     Map<String, NotifyingConsumer> queues = new HashMap<String, NotifyingConsumer>();
 
@@ -81,7 +80,7 @@ public class AmqpPollServlet extends HttpServlet {
 
     synchronized void poll(HttpServletRequest request, HttpServletResponse response, String queue) throws IOException {
         if (!queues.containsKey(queue)) {
-            System.out.println("[poll] There is consumer for queue: " + queue);
+            System.out.println("[poll] There is no consumer for queue: " + queue);
             response.sendError(503);
             return;
         }

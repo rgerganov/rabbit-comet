@@ -22,6 +22,11 @@
       <version>${jettyVersion}</version>
     </dependency>
     <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-webapp</artifactId>
+      <version>${jettyVersion}</version>
+    </dependency>
+    <dependency>
       <groupId>com.rabbitmq</groupId>
       <artifactId>amqp-client</artifactId>
       <version>2.3.1</version>
@@ -50,7 +55,7 @@
           <execution><goals><goal>java</goal></goals></execution>
         </executions>
         <configuration>
-          <mainClass>org.example.HelloWorld</mainClass>
+          <mainClass>com.xakcop.CometServer</mainClass>
         </configuration>
       </plugin>
     </plugins>
