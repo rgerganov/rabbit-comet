@@ -1,1 +1,2 @@
-Web application for streaming messages received from RabbitMQ broker.
+Simple web application using Comet for delivering messages from RabbitMQ broker.
+Jetty continuations used on the server and plain java script on the client.
